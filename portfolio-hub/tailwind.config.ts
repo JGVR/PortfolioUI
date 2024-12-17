@@ -11,7 +11,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        'lapis-lazuli': "#006494"
+        'lapis-lazuli': "#006494",
+        'prussian-blue': '#13293D'
       },
     },
   },
