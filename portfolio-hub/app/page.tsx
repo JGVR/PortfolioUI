@@ -4,7 +4,6 @@ import NavBar from "@/components/NavBar";
 
 export default function Home() {
   return (
-    //<Profile/>
-    <h1 className="text-red-400">test</h1>
+    <Profile/>
   );
 }

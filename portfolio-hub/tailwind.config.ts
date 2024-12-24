@@ -12,7 +12,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         'lapis-lazuli': "#006494",
-        'prussian-blue': '#13293D'
+        'prussian-blue': '#13293D',
+        'alice-blue': '#E8F1F2',
+        'celestial-blue': "#1B98E0"
       },
     },
   },

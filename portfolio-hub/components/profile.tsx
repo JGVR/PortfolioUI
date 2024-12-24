@@ -1,15 +1,45 @@
-import Image from "next/image"
+import Link from "next/link";
+import profileTestData from "@/placeholder/profileTestData";
+import { MapPinIcon, CalendarDaysIcon} from "@heroicons/react/16/solid";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+
 
 export default function Profile(){
     return(
-        <div className="grid grid-cols-3 m-10">
-                <p className="mt-12 mb-5">Short biography will go here....</p>
-                <div className="flex flex-col justify-center items-start h-52 w-52 bg-prussian-blue m-4 rounded-xl">
-                    <h2 className="text-white mb-3 ml-3 mr-3">Age: 28</h2>
-                    <h2 className="text-white m-3">Location: Tennessee</h2>
-                    <h2 className="text-white m-3">LinkedIn: Url to linkedIn</h2>
-                    <h2 className="text-white mt-3 mr-3 ml-3">Github: Url to Github</h2>
+        <div className="grid grid-cols-3">
+            <div className="flex flex-col justify-center items-start bg-lapis-lazuli p-4 rounded-xl">
+                <h1 className="w-full text-white text-lg font-sans font-bold italic ml-1 mr-1 mb-2 border-b-2">About Me</h1>
+                <div className="flex flex-row">
+                    <CalendarDaysIcon className="h-4 w-4 mr-1 mt-3"/>
+                    <h2 className="text-white font-bold italic font-serif mb-1 mt-2">DOB:</h2>
+                    {profileTestData.dateOfBirth ? <h2 className="text-white font-serif mb-1 ml-1 mr-3 mt-2">{profileTestData.dateOfBirth.toLocaleDateString()}</h2> : ""}
                 </div>
+                <div className="flex flex-row">
+                    <MapPinIcon className="h-4 w-4 mt-1 mr-1"/>
+                    <h2 className="text-white font-bold italic font-serif mb-1">Location:</h2>
+                    {profileTestData.countryOfResidence ? <h2 className="text-white font-serif mb-1 ml-1 mr-3">{profileTestData.countryOfResidence}</h2> : ""}
+                </div>
+                <div className="flex flex-row">
+                    <FaGithub className="h-4 w-4 mr-1 mt-1"/>
+                    <h2 className="text-white font-bold italic font-serif mb-1">GitHub:</h2>
+                    {
+                        profileTestData.gitHubUrl ? 
+                            <Link href={profileTestData.gitHubUrl ? profileTestData.gitHubUrl : ""} className="hover:opacity-75">
+                                <h2 className="text-white font-serif mb-1 ml-1 mr-3">{profileTestData.linkedInUrl}</h2>
+                            </Link> : ""
+                    }
+                </div>
+                <div className="flex flex-row">
+                    <FaLinkedin className="w-4 h-4 mr-1 mt-1"/>
+                    <h2 className="text-white font-bold italic font-serif mb-1">LinkedIn:</h2>
+                    {
+                        profileTestData.linkedInUrl ? 
+                            <Link href={profileTestData.gitHubUrl ? profileTestData.gitHubUrl : ""} className="hover:opacity-75">
+                                <h2 className="text-white font-serif mb-1 ml-1 mr-3">{profileTestData.linkedInUrl}</h2>
+                            </Link> : ""
+                    }
+                </div>
+            </div>
         </div>
     )
 }
