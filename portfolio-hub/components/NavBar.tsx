@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link"
-import Image from "next/image"
 import { UserIcon, BriefcaseIcon, FolderIcon } from "@heroicons/react/16/solid"
 import { usePathname } from "next/navigation";
 
