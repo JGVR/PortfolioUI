@@ -10,7 +10,7 @@ export default function RootLayout({
     <html lang="en">
       <body >
         <NavBar />
-        <main className="h-screen w-screen bg-gradient-to-b from-prussian-blue from-40% to-lapis-lazuli">{children}</main>
+        <main className="h-full w-full bg-gradient-to-b from-prussian-blue from-40% to-lapis-lazuli">{children}</main>
       </body>
     </html>
   );
