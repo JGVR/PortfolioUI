@@ -9,7 +9,11 @@ let profileTestData = new Profile({
     dateOfBirth: new Date(1996, 8, 11),
     countryOfResidence: "United States",
     gitHubUrl: "https://github.com/JGVR",
-    linkedInUrl: "https://github.com/JGVR"
+    linkedInUrl: "https://github.com/JGVR",
+    skills: [
+        "react",
+        "c#"
+    ]
 });
 
 export default profileTestData

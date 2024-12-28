@@ -17,7 +17,8 @@ export default {
         'celestial-blue': "#1B98E0",
         'platinum': '#E5E5E5',
         'oxford-blue': '#14213D',
-        'amber': '#FFBF00'
+        'amber': '#FFBF00',
+        'orange': '#FCA311'
       },
     },
   },

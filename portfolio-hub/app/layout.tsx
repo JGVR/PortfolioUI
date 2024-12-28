@@ -8,6 +8,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+      <link href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" rel="stylesheet"/>
+      </head>
       <body >
         <NavBar />
         <main className="h-full w-full bg-gradient-to-b from-prussian-blue from-40% to-lapis-lazuli">{children}</main>
