@@ -18,7 +18,8 @@ export default {
         'platinum': '#E5E5E5',
         'oxford-blue': '#14213D',
         'amber': '#FFBF00',
-        'orange': '#FCA311'
+        'orange': '#FCA311',
+        'django': '#0C4B33'
       },
     },
   },

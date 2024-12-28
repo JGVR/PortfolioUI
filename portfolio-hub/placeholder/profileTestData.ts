@@ -13,7 +13,8 @@ let profileTestData = new Profile({
     skills: [
         "react",
         "c#"
-    ]
+    ],
+    email: "juangabrielvasquez11@gmail.com"
 });
 
 export default profileTestData

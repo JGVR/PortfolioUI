@@ -7,6 +7,7 @@ interface ProfileStruct{
     skills?: string[]
     shortBio?: string
     bio?: string
+    email?: string
     countryOfBirth?: string
     countryOfResidence?: string
     linkedInUrl?: string
@@ -22,12 +23,13 @@ export default class Profile{
     skills?: string[]
     shortBio?: string
     bio?: string
+    email?: string
     countryOfBirth?: string
     countryOfResidence?: string
     linkedInUrl?: string
     gitHubUrl?: string
 
-    constructor({userId, firstName, lastName, dateOfBirth, hobbies=[], skills=[], shortBio="", bio="", countryOfBirth="", countryOfResidence="", linkedInUrl="", gitHubUrl=""}: ProfileStruct){
+    constructor({userId, firstName, lastName, dateOfBirth, hobbies=[], skills=[], shortBio="", bio="", email="" ,countryOfBirth="", countryOfResidence="", linkedInUrl="", gitHubUrl=""}: ProfileStruct){
         this.userId = userId
         this.firstName = firstName
         this.lastName = lastName
@@ -36,6 +38,7 @@ export default class Profile{
         this.skills = skills
         this.shortBio = shortBio
         this.bio = bio
+        this.email = email
         this.countryOfBirth = countryOfBirth
         this.countryOfResidence = countryOfResidence
         this.linkedInUrl = linkedInUrl

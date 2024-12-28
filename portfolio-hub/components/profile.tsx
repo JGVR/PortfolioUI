@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import profileTestData from "@/placeholder/profileTestData";
-import { MapPinIcon, CalendarDaysIcon, ArrowDownTrayIcon} from "@heroicons/react/16/solid";
+import { MapPinIcon, CalendarDaysIcon, ArrowDownTrayIcon, EnvelopeIcon, GlobeAmericasIcon} from "@heroicons/react/16/solid";
 import { FaGithub, FaLinkedin, FaReact } from "react-icons/fa";
 
 
@@ -41,8 +41,9 @@ export default function Profile(){
                 </div>
             </div>
 
-            <div className="flex flex-row justify-start items-center col-start-1 col-end-3 -ml-4 -mr-4 bg-gradient-to-r from-lapis-lazuli to-platinum text-white p-4 rounded-lg shadow-lg space-x-20">
-                <div className="flex flex-row items-center">
+            {/*DETAILS Section*/}
+            <div className="flex flex-row justify-start items-center col-start-1 col-end-3 -ml-4 -mr-4 bg-gradient-to-r from-lapis-lazuli from-40% to-platinum text-white p-4 rounded-lg shadow-lg space-x-20">
+                <div className="flex flex-row items-center ml-3">
                     <h2 className="text-4xl font-bold font-sans mr-2">2+</h2>
                     <div className="flex flex-col justify-center">
                         <h2 className="text-2xl font-bold font-serif">Years of</h2>
@@ -51,25 +52,59 @@ export default function Profile(){
                 </div>
 
                 {/* Contact Details Block */}
-                <div className="flex flex-col">
+                <div className="flex flex-col space-y-1">
                     <h3 className="text-xl font-semibold font-sans">Contact</h3>
-                    <p className="mt-2">
-                        Email:{" "}
-                        <a
-                        href="mailto:your-email@example.com"
-                        className="underline hover:text-blue-200"
-                        >
-                        your-email@example.com
+                    <div className="flex flex-row space-x-2">
+                        <EnvelopeIcon className="h-6 w-6 text-prussian-blue"/>
+                        <a href="mailto:your-email@example.com" className="underline hover:text-blue-200">
+                            {profileTestData.email}
                         </a>
-                    </p>
-                    <p>Country: Your Country</p>
+                    </div>
+                    <div className="flex flex-row space-x-2">
+                        <MapPinIcon className="h-6 w-6 text-prussian-blue"/>
+                        <h3>USA</h3>
+                    </div>
                 </div>
 
                 {/* Personal Details Block */}
                 <div className="flex flex-col">
                     <h3 className="text-xl font-semibold font-sans">Details</h3>
-                    <p className="mt-2">Date of Birth: January 1, 1990</p>
-                    <p>Languages: English, Spanish</p>
+                    <div className="flex flex-row space-x-2">
+                        <CalendarDaysIcon className="h-6 w-6 text-prussian-blue"/>
+                        <h3>January 1, 1990</h3>
+                    </div>
+                    <div className="flex flex-row space-x-2">
+                        <GlobeAmericasIcon className="h-6 w-6 text-prussian-blue"/>
+                        <h3>English/Spanish</h3>
+                    </div>
+                </div>
+
+                {/*FAVORITE Tech Tools*/}
+                <div className="flex flex-row space-x-2">
+                    <Image src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" 
+                            alt="react"
+                            height={60}
+                            width={60}/>
+                    <Image src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" 
+                            alt="python"
+                            height={60}
+                            width={60}/>
+                    <Image src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg" 
+                            alt="csharp"
+                            height={60}
+                            width={60}/>       
+                    <Image src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" 
+                            alt="javascript"
+                            height={60}
+                            width={60}/>
+                    <Image src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" 
+                            alt="nextjs"
+                            height={60}
+                            width={60}/>
+                    <Image src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/django/django-plain.svg" 
+                            alt="django"
+                            height={60}
+                            width={60}/>
                 </div>
             </div>
 
