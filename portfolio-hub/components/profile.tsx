@@ -1,8 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import profileTestData from "@/placeholder/profileTestData";
+import DevToolsGallery from "./DevToolsGallery";
 import { MapPinIcon, CalendarDaysIcon, ArrowDownTrayIcon, EnvelopeIcon, GlobeAmericasIcon} from "@heroicons/react/16/solid";
-import { FaGithub, FaLinkedin, FaReact } from "react-icons/fa";
+import { FaGithub, FaLinkedin} from "react-icons/fa";
 
 
 export default function Profile(){
@@ -67,11 +68,11 @@ export default function Profile(){
                 </div>
 
                 {/* Personal Details Block */}
-                <div className="flex flex-col">
+                <div className="flex flex-col space-y-1">
                     <h3 className="text-xl font-semibold font-sans">Details</h3>
                     <div className="flex flex-row space-x-2">
                         <CalendarDaysIcon className="h-6 w-6 text-prussian-blue"/>
-                        <h3>January 1, 1990</h3>
+                        <h3>{profileTestData.dateOfBirth?.toLocaleDateString()}</h3>
                     </div>
                     <div className="flex flex-row space-x-2">
                         <GlobeAmericasIcon className="h-6 w-6 text-prussian-blue"/>
@@ -80,32 +81,7 @@ export default function Profile(){
                 </div>
 
                 {/*FAVORITE Tech Tools*/}
-                <div className="flex flex-row space-x-2">
-                    <Image src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" 
-                            alt="react"
-                            height={60}
-                            width={60}/>
-                    <Image src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" 
-                            alt="python"
-                            height={60}
-                            width={60}/>
-                    <Image src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg" 
-                            alt="csharp"
-                            height={60}
-                            width={60}/>       
-                    <Image src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" 
-                            alt="javascript"
-                            height={60}
-                            width={60}/>
-                    <Image src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" 
-                            alt="nextjs"
-                            height={60}
-                            width={60}/>
-                    <Image src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/django/django-plain.svg" 
-                            alt="django"
-                            height={60}
-                            width={60}/>
-                </div>
+                <DevToolsGallery data={profileTestData.skills?.slice(0,6) ?? []}/>
             </div>
 
             {/*About me Section*/}

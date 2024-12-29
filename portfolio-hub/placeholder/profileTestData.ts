@@ -12,7 +12,11 @@ let profileTestData = new Profile({
     linkedInUrl: "https://github.com/JGVR",
     skills: [
         "react",
-        "c#"
+        "csharp",
+        "python",
+        "javascript",
+        "nextjs",
+        "dotnetcore"
     ],
     email: "juangabrielvasquez11@gmail.com"
 });
