@@ -3,6 +3,7 @@ import Image from "next/image";
 import profileTestData from "@/placeholder/profileTestData";
 import DevToolsGallery from "./DevToolsGallery";
 import DownloadBttn from "./buttons/DownloadBttn";
+import ComponentCarousel from "./ComponentCarousel";
 import { MapPinIcon, CalendarDaysIcon, EnvelopeIcon, GlobeAmericasIcon} from "@heroicons/react/16/solid";
 import { FaGithub, FaLinkedin} from "react-icons/fa";
 
@@ -78,7 +79,7 @@ export default function Profile(){
                 </div>
 
                 {/*FAVORITE Tech Tools*/}
-                <DevToolsGallery data={profileTestData.skills?.slice(0,6) ?? []}/>
+                <DevToolsGallery data={profileTestData.skills?.slice(0,6) ?? []} iconSize={60}/>
             </div>
 
             {/*About me Section*/}
@@ -97,16 +98,14 @@ export default function Profile(){
             </div>
 
             {/*SKILLS Sections*/}
-            <div className="flex flex-row justify-center items-center col-start-1 col-end-3 ml-4 mr-4">
-                {profileTestData.skills?.map((value, idx) => (
-                    <div key={idx} className="flex flex-col h-56 w-56 rounded-xl mr-3 justify-center items-center bg-gradient-to-l to-black from-oxford-blue">
-                        <Image src="https://stbc.blob.core.windows.net/portfolio-hub/react-logo.svg"
-                                alt="react logo"
-                                height={100}
-                                width={100}/>
-                        <h3 className="text-lg text-white font-serif font-bold italic mt-2">{value}</h3>
-                    </div>
-                ))}
+            <div className="flex flex-col justify-center items-center col-start-1 col-end-3 ml-4 mr-4">
+                <div className="flex flex-row mr-3 mb-2">
+                    <span className="w-10 bg-amber h-1 mt-4"></span>
+                    <h1 className="text-2xl font-sans text-white font-bold ml-4">Skills</h1>
+                </div>
+                <ComponentCarousel>
+                    <DevToolsGallery data={profileTestData.skills ?? []} iconSize={90}/>
+                </ComponentCarousel>
             </div>
         </div>
     )

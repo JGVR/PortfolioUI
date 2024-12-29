@@ -16,7 +16,9 @@ let profileTestData = new Profile({
         "python",
         "javascript",
         "nextjs",
-        "dotnetcore"
+        "dotnetcore",
+        "djangorest",
+        "ruby"
     ],
     email: "juangabrielvasquez11@gmail.com"
 });
