@@ -1,9 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import profileTestData from "@/placeholder/profileTestData";
-import DevToolsGallery from "./DevToolsGallery";
+import DevToolsIcon from "./DevToolsIcon";
 import DownloadBttn from "./buttons/DownloadBttn";
-import ComponentCarousel from "./ComponentCarousel";
 import { MapPinIcon, CalendarDaysIcon, EnvelopeIcon, GlobeAmericasIcon} from "@heroicons/react/16/solid";
 import { FaGithub, FaLinkedin} from "react-icons/fa";
 
@@ -79,7 +78,11 @@ export default function Profile(){
                 </div>
 
                 {/*FAVORITE Tech Tools*/}
-                <DevToolsGallery data={profileTestData.skills?.slice(0,6) ?? []} iconSize={60}/>
+                <div className="flex flex-row space-x-6">
+                    {profileTestData.skills?.map((value, idx) => (
+                        <DevToolsIcon name={value} key={idx} iconSize={100}/>
+                    ))}
+                </div>
             </div>
 
             {/*About me Section*/}
@@ -103,9 +106,7 @@ export default function Profile(){
                     <span className="w-10 bg-amber h-1 mt-4"></span>
                     <h1 className="text-2xl font-sans text-white font-bold ml-4">Skills</h1>
                 </div>
-                <ComponentCarousel>
-                    <DevToolsGallery data={profileTestData.skills ?? []} iconSize={90}/>
-                </ComponentCarousel>
+                
             </div>
         </div>
     )
