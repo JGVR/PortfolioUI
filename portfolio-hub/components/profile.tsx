@@ -103,13 +103,19 @@ export default function Profile(){
             </div>
 
             {/*SKILLS Sections*/}
-            <div className="flex flex-col justify-center items-center col-start-1 col-end-3 ml-4 mr-4">
-                <div className="flex flex-row mr-3 mb-2">
+            <div className="col-start-1 col-end-3 ml-4 mr-4 gap-4">
+                <div className=" flex flex-row col-start-1 col-end-3">
                     <span className="w-10 bg-amber h-1 mt-4"></span>
                     <h1 className="text-2xl font-sans text-white font-bold ml-4">Skills</h1>
                 </div>
-                <div className="w-[80%] m-auto">
+                <div className="grid grid-cols-2">
+                    {profileTestData.skills?.map((value, idx) => (
+                        <div className="border-t-2 border-white" key={idx}>
+                            <DevToolsIcon name={value} iconSize={50}/>
+                        </div>
+                    ))}
                 </div>
+                
             </div>
         </div>
     )
