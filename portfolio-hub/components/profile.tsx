@@ -5,6 +5,7 @@ import DevToolsIcon from "./DevToolsIcon";
 import DownloadBttn from "./buttons/DownloadBttn";
 import { MapPinIcon, CalendarDaysIcon, EnvelopeIcon, GlobeAmericasIcon} from "@heroicons/react/16/solid";
 import { FaGithub, FaLinkedin} from "react-icons/fa";
+import ComponentCarousel from "./ComponentCarousel";
 
 
 export default function Profile(){
@@ -78,19 +79,20 @@ export default function Profile(){
                 </div>
 
                 {/*FAVORITE Tech Tools*/}
-                <div className="flex flex-row space-x-6">
-                    {profileTestData.skills?.map((value, idx) => (
-                        <DevToolsIcon name={value} key={idx} iconSize={100}/>
+                <div className="flex flex-row space-x-5 flex-shrink-0">
+                    {profileTestData.skills?.slice(0,5).map((value, idx) => (
+                        <DevToolsIcon name={value} key={idx} iconSize={50}/>
                     ))}
                 </div>
             </div>
 
             {/*About me Section*/}
             <div className="flex flex-row items-center justify-center ml-4">
-                <Image className="border rounded-xl" src="https://stbc.blob.core.windows.net/portfolio-hub/ComputerImg-Portfolio.webp"
-                        alt="Computer In Office"
-                        width={530}
-                        height={200}/>
+                <ComponentCarousel width={400} height={400}>
+                    {profileTestData.skills?.map((value, idx) => (
+                        <DevToolsIcon name={value} iconSize={400} key={idx}></DevToolsIcon>
+                    ))} 
+                </ComponentCarousel>
             </div>
             <div className="flex flex-col pl-4 justify-center items-start mr-4">
                 <div className="flex flex-row mr-3 mb-2">
@@ -106,7 +108,8 @@ export default function Profile(){
                     <span className="w-10 bg-amber h-1 mt-4"></span>
                     <h1 className="text-2xl font-sans text-white font-bold ml-4">Skills</h1>
                 </div>
-                
+                <div className="w-[80%] m-auto">
+                </div>
             </div>
         </div>
     )

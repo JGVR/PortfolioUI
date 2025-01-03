@@ -1,14 +1,15 @@
 'use client';
 import React from 'react';
-import Image from 'next/image';
 import { ArrowLeftCircleIcon, ArrowRightCircleIcon } from '@heroicons/react/16/solid';
 import { useState } from 'react';
 
 interface ComponentCarouselProp{
     children: React.ReactNode
+    width: number,
+    height: number
 }
 
-export default function ComponentCarousel({children}: ComponentCarouselProp){
+export default function ComponentCarousel({children, width, height}: ComponentCarouselProp){
     const [current, setCurrent] = useState(0);
 
     const previousSlide = () => {
@@ -28,38 +29,43 @@ export default function ComponentCarousel({children}: ComponentCarouselProp){
     };
 
     return(
-        <div className="overflow-hidden relative">
-            <div className="flex transition ease-in-out duration-500"
-                style={{
-                    transform: `translateX(-${current * 100}%)`
-                }}>
-                {React.Children.map(children, (child, idx) => (
-                    <div className="w-full flex-shrink-0"
-                        key={idx}>
-                        {child}
-                    </div>
-                ))}
+        <div className="flex flex-row items-center" style={{
+            width: `${width+100}px`,
+            height: `${height+100}px`
+            }}>
+            <i onClick={previousSlide}>
+                <ArrowLeftCircleIcon className='text-amber h-10 w-10'/>
+            </i>
+            <div className="relative flex mx-auto mt-3 overflow-hidden" style={{
+            width: `${width}px`,
+            height: `${height}px`
+            }}>
+                <div className="flex flex-row transition ease-out duration-500 my-auto"
+                    style={{
+                        transform: `translateX(-${current * width}px)`
+                        }}>
+                    {React.Children.map(children, (child, idx) => (
+                        <div key={idx} style={{width: width, height: height}}>
+                            {child}
+                        </div>
+                    ))}
+                </div>
+                <div className="absolute bottom-0 flex justify-center w-full gap-2">
+                        {React.Children.map(children, (child, idx) => (
+                            <div className={`rounded-full h-3.5 w-3.5 ${idx === current ? 
+                                "bg-white" : "bg-gray-400"}`} 
+                                onClick={() => {
+                                    setCurrent(idx)
+                                }}
+                                >
+                            </div>
+                        ))}
+                </div>
             </div>
-
-            <div className="absolute top-0 h-full w-full justify-between items-center flex px-10">
-                <button onClick={previousSlide}>
-                    <ArrowLeftCircleIcon className='text-red-500 h-10 w-10'/>
-                </button>
-                <button onClick={nextSlide}>
-                    <ArrowRightCircleIcon className='text-red-500 h-10 w-10'/>
-                </button>
-            </div>
-
-            <div className="absolute bottom-0 py-4 flex justify-center gap-3 w-full">
-                {React.Children.map(children, (child, idx) => (
-                    <div onClick={() => {
-                        setCurrent(idx)
-                    }}
-                        key={"circle" + idx}
-                        className={`rounded-full h-5 w-5 ${current === idx ? "bg-white" : "bg-gray-500"}`}>
-                    </div>
-                ))}
-            </div>
+            <i onClick={nextSlide}>
+                <ArrowRightCircleIcon className='text-amber h-10 w-10'/>
+            </i>
         </div>
+        
     )
 }
