@@ -103,19 +103,26 @@ export default function Profile(){
             </div>
 
             {/*SKILLS Sections*/}
-            <div className="col-start-1 col-end-3 ml-4 mr-4 gap-4">
-                <div className=" flex flex-row col-start-1 col-end-3">
+            <div className="col-start-1 col-end-3 ml-4 mr-4 gap-4 mb-10">
+                <div className=" flex flex-row col-start-1 col-end-3 mb-6">
                     <span className="w-10 bg-amber h-1 mt-4"></span>
                     <h1 className="text-2xl font-sans text-white font-bold ml-4">Skills</h1>
                 </div>
                 <div className="grid grid-cols-2">
                     {profileTestData.skills?.map((value, idx) => (
-                        <div className="border-t-2 border-white" key={idx}>
-                            <DevToolsIcon name={value} iconSize={50}/>
+                        <div className="flex flex-row items-center border-t border-white ml-10 mt-2" key={idx}>
+                            <div className="mt-2 flex flex-row justify-center items-center mr-4">
+                                <DevToolsIcon name={value} iconSize={30}/>
+                                <h4 className="pl-2">{value}</h4>
+                            </div>
+                            {Array.from({length: 10}).map((_, idx) => (
+                                <div className="w-3 h-3 rounded-full mx-2 mt-2 bg-amber" key={"skillLevel " + idx}>
+                                </div>
+                            ))}
+                            
                         </div>
                     ))}
-                </div>
-                
+                </div>    
             </div>
         </div>
     )
