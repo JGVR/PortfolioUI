@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import profileTestData from "@/placeholder/profileTestData";
 import DevToolsIcon from "./DevToolsIcon";
+import SkillLevel from "./SkillLevel";
 import DownloadBttn from "./buttons/DownloadBttn";
 import { MapPinIcon, CalendarDaysIcon, EnvelopeIcon, GlobeAmericasIcon} from "@heroicons/react/16/solid";
 import { FaGithub, FaLinkedin} from "react-icons/fa";
@@ -81,7 +82,7 @@ export default function Profile(){
                 {/*FAVORITE Tech Tools*/}
                 <div className="flex flex-row space-x-5 flex-shrink-0">
                     {profileTestData.skills?.slice(0,5).map((value, idx) => (
-                        <DevToolsIcon name={value} key={idx} iconSize={50}/>
+                        <DevToolsIcon name={value.name} key={idx} iconSize={50}/>
                     ))}
                 </div>
             </div>
@@ -90,7 +91,7 @@ export default function Profile(){
             <div className="flex flex-row items-center justify-center ml-4">
                 <ComponentCarousel width={400} height={400}>
                     {profileTestData.skills?.map((value, idx) => (
-                        <DevToolsIcon name={value} iconSize={400} key={idx}></DevToolsIcon>
+                        <DevToolsIcon name={value.name} iconSize={400} key={idx}></DevToolsIcon>
                     ))} 
                 </ComponentCarousel>
             </div>
@@ -108,22 +109,35 @@ export default function Profile(){
                     <span className="w-10 bg-amber h-1 mt-4"></span>
                     <h1 className="text-2xl font-sans text-white font-bold ml-4">Skills</h1>
                 </div>
-                <div className="grid grid-cols-2">
-                    {profileTestData.skills?.map((value, idx) => (
-                        <div className="flex flex-row items-center border-t border-white ml-10 mt-2" key={idx}>
-                            <div className="mt-2 flex flex-row justify-center items-center mr-4">
-                                <DevToolsIcon name={value} iconSize={30}/>
-                                <h4 className="pl-2">{value}</h4>
-                            </div>
-                            {Array.from({length: 10}).map((_, idx) => (
-                                <div className="w-3 h-3 rounded-full mx-2 mt-2 bg-amber" key={"skillLevel " + idx}>
-                                </div>
-                            ))}
-                            
-                        </div>
-                    ))}
+                <div className="w-full">
+                    <div className="grid grid-rows-4 grid-flow-col border-t border-gray-400">
+                        {profileTestData.skills?.map((val, idx) => (
+                            <SkillLevel name={val.name} level={val.level} iconSize={30} meterLength={10} key={idx}/>
+                        ))}
+                    </div>
                 </div>    
             </div>
         </div>
     )
+
+    /*{profileTestData.skills?.map((value, idx) => (
+                        <div className="flex flex-row items-center border-t border-white py-4" key={idx}>
+                            <div className="flex flex-row items-center w-1/3 pl-4">
+                                <DevToolsIcon name={value} iconSize={30}/>
+                                <h4 className="pl-4">{value}</h4>
+                            </div>
+
+
+                            <div className="flex flex-row w-2/3">
+                                {Array.from({ length: 10 }).map((_, levelIdx) => (
+                                    <div
+                                    className={`w-3 h-3 rounded-full mx-2 ${
+                                        levelIdx < 5 ? "bg-amber-500" : "bg-gray-700"
+                                    }`}
+                                    key={`skillLevel-${idx}-${levelIdx}`}
+                                    ></div>
+                                ))}
+                            </div>
+                        </div>
+                    ))} */
 }

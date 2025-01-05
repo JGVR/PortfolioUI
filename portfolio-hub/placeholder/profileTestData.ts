@@ -1,4 +1,5 @@
 import Profile from "@/models/profile"
+import Skill from "@/models/Skill";
 
 let profileTestData = new Profile({
     userId:1,
@@ -11,14 +12,14 @@ let profileTestData = new Profile({
     gitHubUrl: "https://github.com/JGVR",
     linkedInUrl: "https://github.com/JGVR",
     skills: [
-        "react",
-        "csharp",
-        "python",
-        "javascript",
-        "nextjs",
-        "dotnetcore",
-        "djangorest",
-        "ruby"
+        new Skill({name: "react", level:6}),
+        new Skill({name: "csharp", level:6}),
+        new Skill({name: "python", level:8}),
+        new Skill({name: "javascript", level:5}),
+        new Skill({name: "dotnetcore", level:6}),
+        new Skill({name: "nextjs", level:6}),
+        new Skill({name: "djangorest", level:4}),
+        new Skill({name: "mongodb", level:3})
     ],
     email: "juangabrielvasquez11@gmail.com"
 });

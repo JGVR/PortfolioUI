@@ -1,10 +1,12 @@
+import Skill from "./Skill"
+
 interface ProfileStruct{
     userId: number
     firstName: string
     lastName: string
     dateOfBirth?: Date
     hobbies?: string[]
-    skills?: string[]
+    skills?: Skill[]
     shortBio?: string
     bio?: string
     email?: string
@@ -20,7 +22,7 @@ export default class Profile{
     lastName: string
     dateOfBirth?: Date
     hobbies?: string[]
-    skills?: string[]
+    skills?: Skill[]
     shortBio?: string
     bio?: string
     email?: string
