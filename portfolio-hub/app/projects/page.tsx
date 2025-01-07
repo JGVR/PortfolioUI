@@ -1,9 +1,8 @@
 'use client';
+import ChatBotModal from "@/components/ChatBotModal";
 
 export default function Projects(){
     return(
-        <div className="w-[30%] m-auto">
-            
-        </div>
+        <ChatBotModal/>
     )
 }
