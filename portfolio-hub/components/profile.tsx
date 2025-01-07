@@ -119,25 +119,4 @@ export default function Profile(){
             </div>
         </div>
     )
-
-    /*{profileTestData.skills?.map((value, idx) => (
-                        <div className="flex flex-row items-center border-t border-white py-4" key={idx}>
-                            <div className="flex flex-row items-center w-1/3 pl-4">
-                                <DevToolsIcon name={value} iconSize={30}/>
-                                <h4 className="pl-4">{value}</h4>
-                            </div>
-
-
-                            <div className="flex flex-row w-2/3">
-                                {Array.from({ length: 10 }).map((_, levelIdx) => (
-                                    <div
-                                    className={`w-3 h-3 rounded-full mx-2 ${
-                                        levelIdx < 5 ? "bg-amber-500" : "bg-gray-700"
-                                    }`}
-                                    key={`skillLevel-${idx}-${levelIdx}`}
-                                    ></div>
-                                ))}
-                            </div>
-                        </div>
-                    ))} */
 }
