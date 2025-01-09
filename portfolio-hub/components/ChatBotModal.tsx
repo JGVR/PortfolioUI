@@ -1,28 +1,23 @@
 import { Fragment, useEffect, useState } from "react";
 import { IoIosCloseCircleOutline, IoMdRefresh } from "react-icons/io";
-import { GoDependabot } from "react-icons/go";
-import { CiUser } from "react-icons/ci";
 import Answer from "@/models/answer";
 import Question from "@/models/question";
+import ChatEvent from "@/models/chat-event";
 
-export default function ChatBotModal(){
+interface ModalStruct{
+    children: React.ReactNode
+}
+
+export default function ChatBotModal({children}: ModalStruct){
     const [isModalOpen, setModalOpen] = useState(true);
-    const [answers, setAnswers] = useState<Answer[]>([]);
-    const [questions, setQuestions] = useState<Question>();
 
     const onClose = () => {
         setModalOpen(!isModalOpen);
-    }
+    };
 
     if(!isModalOpen){
         return null;
     }
-
-    //for testing at the moment:
-    useEffect(() => {
-        setQuestions(new Question("Who is Juan"));
-        setAnswers((prevAnswer) => [...prevAnswer, new Answer("hello! I'm friday", new Question("Who is Juan"), true)]);
-    }, [])
 
     return(
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" onClick={onClose}>
@@ -36,30 +31,7 @@ export default function ChatBotModal(){
                 
                 {/*Modal Content*/}
                 <div className="flex flex-col w-full h-[72%] overflow-x-scroll">
-                    {answers.map((a, idx) => (
-                        <Fragment key={`chatbot-qa-${idx}`}>
-                            <div className="flex flex-col p-4">
-                                <div className="flex flex-row items-center ml-3">
-                                    <GoDependabot className="w-8 h-8 text-lapis-lazuli mb-1"/>
-                                    <h3 className="text-black ml-2">Friday</h3>
-                                </div>
-                                <p className="text-white max-w-[70%] h-auto bg-prussian-blue rounded-xl p-3">
-                                {a.text}
-                                </p>
-                            </div>
-                            <div className="flex flex-col p-4">
-                                <div className="flex flex-row items-center justify-end mr-3">
-                                        <CiUser className="w-8 h-8 text-lapis-lazuli mb-1"/>
-                                        <h3 className="text-black ml-1">You</h3>
-                                </div>
-                                <div className="flex flex-row items-center justify-end">
-                                    <p className="text-white max-w-[70%] h-auto bg-prussian-blue rounded-xl p-3">
-                                        {a.question.text}
-                                    </p>
-                                </div>
-                            </div>           
-                        </Fragment>
-                    ))}     
+                    {children}
                 </div>
                 {/*Modal Footer*/}
                 <div className="flex flex-row items-center border-t border-gray-400 w-full h-[14%]">
@@ -67,6 +39,5 @@ export default function ChatBotModal(){
                 </div>
             </div>
         </div>
-
     )
 }
