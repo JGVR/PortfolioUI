@@ -1,7 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { IoIosCloseCircleOutline, IoMdRefresh } from "react-icons/io";
-
-import Question from "@/models/question";
 
 interface ModalStruct{
     children: React.ReactNode
@@ -9,7 +7,6 @@ interface ModalStruct{
 
 export default function ChatBotModal({children}: ModalStruct){
     const [isModalOpen, setModalOpen] = useState(true);
-
 
     const onClose = () => {
         setModalOpen(!isModalOpen);

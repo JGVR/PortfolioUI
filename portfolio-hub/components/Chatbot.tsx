@@ -1,16 +1,20 @@
-import { Fragment, useRef } from "react";
-import { useState, useEffect } from "react";
+import { Fragment, useRef, useState, useEffect } from "react";
 import Answer from "@/models/answer";
 import Question from "@/models/question";
 import ChatEvent from "@/models/chat-event";
 import ChatMessage from "./ChatMessage";
 import { IoMdSend } from "react-icons/io";
+import HumanMessage from "@/models/human-message";
+import AIMessage from "@/models/ai-message";
+import ChatMsg from "@/models/chat-message";
 
 export default function Chatbot(){
-    const [answers, setAnswers] = useState<Answer[]>([]);
-    const [questions, setQuestions] = useState<Question>();
+    //const [humanMessage, setHumanMessage] = useState<HumanMessage>();
+    //const [AIMessage, setAIMessage] = useState<AIMessage>();
+    const [chatMessages, setChatMessages] = useState<ChatMsg[]>([]);
     const [message, setMessage] = useState("");
-    let question: Question;
+    let messageType: string;
+    let question: Question = new Question("");
     const qa = {
         event: "qa",
         question: "Who is Juan?"
@@ -32,8 +36,27 @@ export default function Chatbot(){
     const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         adjustHeight();
         setMessage(e.target.value);
-        console.log(message);
-    }
+    };
+
+    const onSend = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if(e.key == "Enter" && !e.shiftKey){
+            e.preventDefault();
+            console.log(message);
+            const humanMessage = new HumanMessage(new Question(message));
+            const chatMsg = new ChatMsg(humanMessage);
+            setChatMessages((prevMsgs) => [...prevMsgs, chatMsg]);
+            //test
+            const aiMessage = new AIMessage(new Answer("Juan is a software dev", humanMessage.question, true));
+            setChatMessages((prevMsgs) => [...prevMsgs, new ChatMsg(aiMessage)])
+            setMessage("");
+        }
+    };
+
+    useEffect(() => {
+        chatMessages.map((m, idx) => (
+            console.log(`HumanMsg: ${m.humanMessage?.question.text}. AiMsg: ${m.aiMessage?.answer.text}`)
+        ));
+    }, [chatMessages])
 
     //for testing at the moment:
     useEffect(() => {
@@ -62,25 +85,22 @@ export default function Chatbot(){
            }
         }*/
 
-        setQuestions(new Question("Who is Juan"));
-        setAnswers((prevAnswer) => [...prevAnswer, new Answer("hello! I'm friday", new Question("Who is Juan"), true)]);
+        //setQuestions(new Question("Who is Juan"));
+        //setAnswers((prevAnswer) => [...prevAnswer, new Answer("hello! I'm friday", new Question("Who is Juan"), true)]);
 
         /*return () => {
             socket.close();
         }*/
     }, [])
 
-    useEffect(() => {
-        question = new Question(message);
-        console.log(question);
-    }, [message])
-
     return(
         <Fragment>
             <div className="relative flex flex-col w-full h-full">
                 {/* Scrollable Chat Content */}
                 <div className="flex-grow overflow-y-scroll p-2 mb-24">
-                    <ChatMessage />
+                    {chatMessages.map((m, idx) => (
+                        <ChatMessage chatMsg={m} key={idx}/>
+                    ))}
                 </div>
 
                 {/* Fixed Textarea at Bottom */}
@@ -91,6 +111,7 @@ export default function Chatbot(){
                         className="h-10 max-h-[100px] w-[92%] border rounded-3xl p-2 text-black resize-none overflow-auto"
                         placeholder="Ask Friday..."
                         onChange={onChange}
+                        onKeyDown={onSend}
                         value={message}
                         />
                         <IoMdSend className="h-8 w-8 text-prussian-blue ml-2 cursor-pointer hover:opacity-40" />
