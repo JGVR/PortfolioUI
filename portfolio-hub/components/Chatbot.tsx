@@ -1,10 +1,9 @@
-import { GoDependabot } from "react-icons/go";
-import { CiUser } from "react-icons/ci";
-import { Fragment } from "react";
+import { Fragment, useRef } from "react";
 import { useState, useEffect } from "react";
 import Answer from "@/models/answer";
 import Question from "@/models/question";
 import ChatEvent from "@/models/chat-event";
+import ChatMessage from "./ChatMessage";
 
 export default function Chatbot(){
     const [answers, setAnswers] = useState<Answer[]>([]);
@@ -51,26 +50,9 @@ export default function Chatbot(){
 
     return(
         <Fragment>
-            <div className="flex flex-col p-4">
-                <div className="flex flex-row items-center ml-3">
-                    <GoDependabot className="w-8 h-8 text-lapis-lazuli mb-1"/>
-                    <h3 className="text-black ml-2">Friday</h3>
-                </div>
-                <p className="text-white max-w-[70%] h-auto bg-prussian-blue rounded-xl p-3">
-                    testing the chatbot component
-                </p>
+            <div className="relative flex flex-col w-full h-full">
+                <ChatMessage/>
             </div>
-            <div className="flex flex-col p-4">
-                <div className="flex flex-row items-center justify-end mr-3">
-                        <CiUser className="w-8 h-8 text-lapis-lazuli mb-1"/>
-                        <h3 className="text-black ml-1">You</h3>
-                </div>
-                <div className="flex flex-row items-center justify-end">
-                    <p className="text-white max-w-[70%] h-auto bg-prussian-blue rounded-xl p-3">
-                        placeholder for testing
-                    </p>
-                </div>
-            </div>           
         </Fragment>
     )
 }
