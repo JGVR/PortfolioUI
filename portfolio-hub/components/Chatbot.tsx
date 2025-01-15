@@ -1,7 +1,8 @@
 import { Fragment, useRef, useState, useEffect } from "react";
 import Answer from "@/models/answer";
 import Question from "@/models/question";
-import ChatEvent from "@/models/chat-event";
+import QaEvent from "@/models/qa-event";
+import AnswerEvent from "@/models/answer-event";
 import ChatMessage from "./ChatMessage";
 import { IoMdSend } from "react-icons/io";
 import HumanMessage from "@/models/human-message";
@@ -13,12 +14,9 @@ export default function Chatbot(){
     //const [AIMessage, setAIMessage] = useState<AIMessage>();
     const [chatMessages, setChatMessages] = useState<ChatMsg[]>([]);
     const [message, setMessage] = useState("");
+    const [humanMsg, setHumanMsg] = useState<HumanMessage>();
+    const socketRef = useRef<WebSocket | null>(null);
     let messageType: string;
-    let question: Question = new Question("");
-    const qa = {
-        event: "qa",
-        question: "Who is Juan?"
-    };
 
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -40,58 +38,65 @@ export default function Chatbot(){
 
     const onSend = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if(e.key == "Enter" && !e.shiftKey){
-            e.preventDefault();
-            console.log(message);
+            e.preventDefault(); //prevents textarea from going to next line
             const humanMessage = new HumanMessage(new Question(message));
+            setHumanMsg(humanMessage);
             const chatMsg = new ChatMsg(humanMessage);
             setChatMessages((prevMsgs) => [...prevMsgs, chatMsg]);
-            //test
-            const aiMessage = new AIMessage(new Answer("Juan is a software dev", humanMessage.question, true));
-            setChatMessages((prevMsgs) => [...prevMsgs, new ChatMsg(aiMessage)])
             setMessage("");
         }
     };
 
     useEffect(() => {
-        chatMessages.map((m, idx) => (
-            console.log(`HumanMsg: ${m.humanMessage?.question.text}. AiMsg: ${m.aiMessage?.answer.text}`)
-        ));
-    }, [chatMessages])
+        const socket = new WebSocket("ws://localhost:8500/ws/chat/");
+        socketRef.current = socket;
 
-    //for testing at the moment:
-    useEffect(() => {
-        /*const socket = new WebSocket("ws://localhost:8500/ws/chat/");
         socket.onopen = () => {
-            console.log("Connection established");
-            socket.send(JSON.stringify(qa));
-            console.log(JSON.stringify(qa));
-        };
-        
-        socket.onerror = (error) => {
-            console.error("WebSocket error:", error);
-          };
+            console.log("Connection established!");
+        }
 
         socket.onclose = () => {
             console.log("Connection closed");
         };
 
-        socket.onmessage = (event) => {
-           try{
-            const result: ChatEvent = JSON.parse(event.data);
-            console.log(result);
-           }catch(error){
-            console.log(error);
+        return () => {
             socket.close();
-           }
-        }*/
-
-        //setQuestions(new Question("Who is Juan"));
-        //setAnswers((prevAnswer) => [...prevAnswer, new Answer("hello! I'm friday", new Question("Who is Juan"), true)]);
-
-        /*return () => {
-            socket.close();
-        }*/
+        }
     }, [])
+
+    //for testing at the moment:
+    useEffect(() => {
+        console.log(humanMsg);
+        if(humanMsg && socketRef.current?.readyState === WebSocket.OPEN){
+            //open ws connection
+            const req = {event: "qa", question: humanMsg?.question.text};
+            socketRef.current.send(JSON.stringify(req));
+            console.log(JSON.stringify(req));
+
+            socketRef.current.onerror = (error) => {
+                console.error("WebSocket error:", error);
+              };
+
+            //on ws message
+            socketRef.current.onmessage = (event) => {
+                const wsEvent = JSON.parse(event.data);
+                try{
+                    if(wsEvent.event == "qa"){
+                        const result: QaEvent = JSON.parse(event.data);
+                        console.log(`qa event: ${result.text}`);
+                    }else{
+                        console.log(`Event data: ${event.data}`)
+                        const result: AnswerEvent = JSON.parse(event.data);
+                        console.log("this executed");
+                        //console.log(result.message);
+                    } 
+                }catch(error){
+                    console.log(error);
+                    socketRef.current?.close();
+                }
+             }
+        }
+    }, [humanMsg])
 
     return(
         <Fragment>

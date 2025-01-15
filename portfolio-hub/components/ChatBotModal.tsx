@@ -18,7 +18,7 @@ export default function ChatBotModal({children}: ModalStruct){
 
     return(
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" onClick={onClose}>
-            {/*MODAL    */}
+            {/*MODAL*/}
             <div className="bg-white rounded-lg shadow-lg w-full max-w-3xl h-3/4 max-h-[90vh]" onClick={(e) => (e.stopPropagation())}>
                 {/*Modal Header*/}
                 <div className="flex flex-row items-center border-b border-gray-400 w-full h-[10%] gap-1">
@@ -33,7 +33,7 @@ export default function ChatBotModal({children}: ModalStruct){
                 </div>
                 {/*Modal Footer*/}
                 <div className="flex flex-row items-center justify-start w-full h-[10%] max-h-[10%] p-4">
-                    <h3 className="text-prussian-blue italic">Powered by ChatGPT 4o</h3>
+                    <h3 className="text-prussian-blue italic opacity-60">Powered by ChatGPT 4o</h3>
                 </div>
             </div>
         </div>
