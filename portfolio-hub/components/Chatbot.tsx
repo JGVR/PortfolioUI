@@ -40,9 +40,9 @@ export default function Chatbot(){
         if(e.key == "Enter" && !e.shiftKey){
             e.preventDefault(); //prevents textarea from going to next line
             const humanMessage = new HumanMessage(new Question(message));
-            setHumanMsg(humanMessage);
             const chatMsg = new ChatMsg(humanMessage);
             setChatMessages((prevMsgs) => [...prevMsgs, chatMsg]);
+            setHumanMsg(humanMessage);
             setMessage("");
         }
     };
@@ -76,27 +76,47 @@ export default function Chatbot(){
             socketRef.current.onerror = (error) => {
                 console.error("WebSocket error:", error);
               };
+        }
+    }, [humanMsg])
 
+    useEffect(() => {
+        if(humanMsg && socketRef.current?.readyState === WebSocket.OPEN){
             //on ws message
             socketRef.current.onmessage = (event) => {
                 const wsEvent = JSON.parse(event.data);
                 try{
                     if(wsEvent.event == "qa"){
                         const result: QaEvent = JSON.parse(event.data);
-                        console.log(`qa event: ${result.text}`);
+                        const answer = new Answer(result.text, result.question);
+                        const aiMessage = new AIMessage(answer);
+
+                        //if last message is aiMessage, update chatMessages with the ai model answer as it is fetch from api
+                        //Otherwise add aiMessage to chatMessages
+                        if(chatMessages[chatMessages.length-1].aiMessage != null){
+                            setChatMessages((prevMsg) => {
+                                const msgs = [...prevMsg];
+                                const lastMsg = msgs[msgs.length-1]
+                                const newMsg = lastMsg.aiMessage?.answer.text + aiMessage.answer.text;
+                                const newAnswer = new Answer(
+                                    newMsg,
+                                    lastMsg.aiMessage?.answer.question
+                                )
+                                msgs[msgs.length-1] = new ChatMsg(new AIMessage(newAnswer));
+                                return msgs;
+                            });
+                        }else{
+                            setChatMessages((prevMsgs) => [...prevMsgs, new ChatMsg(aiMessage)]);
+                        }
                     }else{
-                        console.log(`Event data: ${event.data}`)
                         const result: AnswerEvent = JSON.parse(event.data);
-                        console.log("this executed");
-                        //console.log(result.message);
                     } 
                 }catch(error){
-                    console.log(error);
                     socketRef.current?.close();
                 }
-             }
+            }
         }
-    }, [humanMsg])
+    }, [chatMessages])
+
 
     return(
         <Fragment>

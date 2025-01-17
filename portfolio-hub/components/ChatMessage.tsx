@@ -30,7 +30,7 @@ export default function ChatMessage({chatMsg}: ChatMessageStruct){
                     <h3 className="text-black ml-2">Friday</h3>
                 </div>
                 <p className="text-white max-w-[70%] h-auto bg-prussian-blue rounded-xl p-3">
-                    testing the chatbot component
+                    {chatMsg.aiMessage?.answer.text}
                 </p>
             </div>
         )
