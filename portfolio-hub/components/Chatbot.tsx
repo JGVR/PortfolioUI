@@ -10,15 +10,15 @@ import AIMessage from "@/models/ai-message";
 import ChatMsg from "@/models/chat-message";
 
 export default function Chatbot(){
-    //const [humanMessage, setHumanMessage] = useState<HumanMessage>();
-    //const [AIMessage, setAIMessage] = useState<AIMessage>();
     const [chatMessages, setChatMessages] = useState<ChatMsg[]>([]);
     const [message, setMessage] = useState("");
     const [humanMsg, setHumanMsg] = useState<HumanMessage>();
+    const [isCompleted, setIsCompleted] = useState(true);
     const socketRef = useRef<WebSocket | null>(null);
     let messageType: string;
-
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+    const chatContentDivRef = useRef<HTMLDivElement | null>(null);
+
 
     const adjustHeight = () => {
         const textarea = textareaRef.current;
@@ -28,6 +28,13 @@ export default function Chatbot(){
     
           // Adjust height to scroll height, up to max height
           textarea.style.height = `${Math.min(textarea.scrollHeight, 100)}px`;
+        }
+    }
+
+    //scroll chat message content to the bottom
+    const scrollChatContentBottom = () => {
+        if(chatContentDivRef.current){
+            chatContentDivRef.current.scrollTop = chatContentDivRef.current.scrollHeight;
         }
     }
 
@@ -47,6 +54,7 @@ export default function Chatbot(){
         }
     };
 
+    //Initialize socket on component mounting
     useEffect(() => {
         const socket = new WebSocket("ws://localhost:8500/ws/chat/");
         socketRef.current = socket;
@@ -64,33 +72,32 @@ export default function Chatbot(){
         }
     }, [])
 
-    //for testing at the moment:
+    //Send "qa" event to WS endpoint when client types a question
     useEffect(() => {
-        console.log(humanMsg);
         if(humanMsg && socketRef.current?.readyState === WebSocket.OPEN){
             //open ws connection
             const req = {event: "qa", question: humanMsg?.question.text};
             socketRef.current.send(JSON.stringify(req));
+            setIsCompleted(false);
             console.log(JSON.stringify(req));
-
-            socketRef.current.onerror = (error) => {
-                console.error("WebSocket error:", error);
-              };
         }
     }, [humanMsg])
 
+    //Receive ws message everytime chatMessages is updated
     useEffect(() => {
-        if(humanMsg && socketRef.current?.readyState === WebSocket.OPEN){
-            //on ws message
-            socketRef.current.onmessage = (event) => {
-                const wsEvent = JSON.parse(event.data);
-                try{
+        try{
+            //receive ws event if there's a human msg and if ws connection is open
+            if(humanMsg && socketRef.current?.readyState === WebSocket.OPEN){
+                socketRef.current.onmessage = (event) => {
+                    const wsEvent = JSON.parse(event.data);
+
+                    //"qa" event streams chatbot response
                     if(wsEvent.event == "qa"){
                         const result: QaEvent = JSON.parse(event.data);
                         const answer = new Answer(result.text, result.question);
                         const aiMessage = new AIMessage(answer);
 
-                        //if last message is aiMessage, update chatMessages with the ai model answer as it is fetch from api
+                        //If last message is aiMessage, update chatMessages last message with the ai model answer as it is fetch from api
                         //Otherwise add aiMessage to chatMessages
                         if(chatMessages[chatMessages.length-1].aiMessage != null){
                             setChatMessages((prevMsg) => {
@@ -108,12 +115,16 @@ export default function Chatbot(){
                             setChatMessages((prevMsgs) => [...prevMsgs, new ChatMsg(aiMessage)]);
                         }
                     }else{
+                        //"answer" event has complete answer + question
                         const result: AnswerEvent = JSON.parse(event.data);
-                    } 
-                }catch(error){
-                    socketRef.current?.close();
+                        setIsCompleted(result.message.completed);
+                        console.log(result.message.completed);
+                    }
                 }
+                scrollChatContentBottom(); 
             }
+        }catch(error){
+            socketRef.current?.close();
         }
     }, [chatMessages])
 
@@ -122,7 +133,8 @@ export default function Chatbot(){
         <Fragment>
             <div className="relative flex flex-col w-full h-full">
                 {/* Scrollable Chat Content */}
-                <div className="flex-grow overflow-y-scroll p-2 mb-24">
+                <div ref={chatContentDivRef}
+                    className="flex-grow overflow-y-scroll p-2 mb-24">
                     {chatMessages.map((m, idx) => (
                         <ChatMessage chatMsg={m} key={idx}/>
                     ))}
@@ -132,12 +144,13 @@ export default function Chatbot(){
                 <div className="absolute bottom-0 left-0 w-full p-2 bg-white">
                     <div className="flex items-center">
                         <textarea
-                        ref={textareaRef}
-                        className="h-10 max-h-[100px] w-[92%] border rounded-3xl p-2 text-black resize-none overflow-auto"
-                        placeholder="Ask Friday..."
-                        onChange={onChange}
-                        onKeyDown={onSend}
-                        value={message}
+                            ref={textareaRef}
+                            className="h-10 max-h-[100px] w-[92%] border rounded-3xl p-2 text-black resize-none overflow-auto"
+                            placeholder="Ask Friday..."
+                            onChange={onChange}
+                            onKeyDown={onSend}
+                            value={message}
+                            disabled={!isCompleted}
                         />
                         <IoMdSend className="h-8 w-8 text-prussian-blue ml-2 cursor-pointer hover:opacity-40" />
                     </div>
