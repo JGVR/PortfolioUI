@@ -11,6 +11,15 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        'lapis-lazuli': "#006494",
+        'prussian-blue': '#13293D',
+        'alice-blue': '#E8F1F2',
+        'celestial-blue': "#1B98E0",
+        'platinum': '#E5E5E5',
+        'oxford-blue': '#14213D',
+        'amber': '#FFBF00',
+        'orange': '#FCA311',
+        'django': '#0C4B33'
       },
     },
   },
