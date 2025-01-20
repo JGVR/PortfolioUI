@@ -23,7 +23,7 @@ export default function Chatbot({isRefreshed, setIsRefreshed}: IChatBot){
     let messageType: string;
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
     const chatContentDivRef = useRef<HTMLDivElement | null>(null);
-    const [isReceived, setIsReceived] = useState(true);
+    const [isAnswerReceived, setIsAnswerReceived] = useState(true);
 
 
     const adjustHeight = () => {
@@ -93,10 +93,12 @@ export default function Chatbot({isRefreshed, setIsRefreshed}: IChatBot){
             const req = {event: "qa", question: humanMsg?.question.text};
             socketRef.current.send(JSON.stringify(req));
             setIsCompleted(false);
+
+            //Initialize an empty ai message
             var answer = new Answer("", humanMsg.question.text);
             var aiMsg = new AIMessage(answer);
             setChatMessages((prevMsg) => [...prevMsg, new ChatMsg(aiMsg)]);
-            setIsReceived(false);
+            setIsAnswerReceived(false);
         }
     }, [humanMsg]);
 
@@ -107,7 +109,7 @@ export default function Chatbot({isRefreshed, setIsRefreshed}: IChatBot){
             if(humanMsg && socketRef.current?.readyState === WebSocket.OPEN){
                 socketRef.current.onmessage = (event) => {
                     const wsEvent = JSON.parse(event.data);
-                    setIsReceived(true);
+                    setIsAnswerReceived(true);
 
                     //"qa" event streams chatbot response
                     if(wsEvent.event == "qa"){
@@ -139,11 +141,11 @@ export default function Chatbot({isRefreshed, setIsRefreshed}: IChatBot){
                         console.log(result.message.completed);
                     }
                 }
-                scrollChatContentBottom(); 
+                scrollChatContentBottom();
             }
         }catch(error){
             setIsCompleted(true);
-            setIsReceived(false);
+            setIsAnswerReceived(false);
             socketRef.current?.close();
         }
     }, [chatMessages]);
@@ -164,7 +166,7 @@ export default function Chatbot({isRefreshed, setIsRefreshed}: IChatBot){
                 <div ref={chatContentDivRef}
                     className="flex-grow overflow-y-scroll p-2 mb-24">
                     {chatMessages.map((m, idx) => (
-                        <ChatMessage chatMsg={m} key={idx} isReceived={isReceived}/>
+                        <ChatMessage chatMsg={m} key={idx} isAnswerReceived={isAnswerReceived}/>
                     ))}
                 </div>
 

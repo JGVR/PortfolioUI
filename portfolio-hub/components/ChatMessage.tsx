@@ -4,10 +4,10 @@ import ChatMsg from "@/models/chat-message";
 
 interface ChatMessageStruct{
     chatMsg: ChatMsg;
-    isReceived: boolean;
+    isAnswerReceived: boolean;
 }
 
-export default function ChatMessage({chatMsg, isReceived}: ChatMessageStruct){
+export default function ChatMessage({chatMsg, isAnswerReceived}: ChatMessageStruct){
 
     if(chatMsg.humanMessage !== undefined){
         return(
@@ -31,7 +31,7 @@ export default function ChatMessage({chatMsg, isReceived}: ChatMessageStruct){
                     <h3 className="text-black ml-2">Friday</h3>
                 </div>
                 {
-                    chatMsg.aiMessage?.answer.text === "" && !isReceived ?
+                    chatMsg.aiMessage?.answer.text === "" && !isAnswerReceived ?
                     <div className="flex justify-start items-center space-x-1">
                         <h3 className="text-prussian-blue">Thinking</h3>
                         <div className="w-2 h-2 bg-prussian-blue rounded-full animate-bounce"></div>
