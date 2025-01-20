@@ -23,6 +23,7 @@ export default function Chatbot({isRefreshed, setIsRefreshed}: IChatBot){
     let messageType: string;
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
     const chatContentDivRef = useRef<HTMLDivElement | null>(null);
+    const [isReceived, setIsReceived] = useState(true);
 
 
     const adjustHeight = () => {
@@ -92,7 +93,10 @@ export default function Chatbot({isRefreshed, setIsRefreshed}: IChatBot){
             const req = {event: "qa", question: humanMsg?.question.text};
             socketRef.current.send(JSON.stringify(req));
             setIsCompleted(false);
-            console.log(JSON.stringify(req));
+            var answer = new Answer("", humanMsg.question.text);
+            var aiMsg = new AIMessage(answer);
+            setChatMessages((prevMsg) => [...prevMsg, new ChatMsg(aiMsg)]);
+            setIsReceived(false);
         }
     }, [humanMsg]);
 
@@ -103,6 +107,7 @@ export default function Chatbot({isRefreshed, setIsRefreshed}: IChatBot){
             if(humanMsg && socketRef.current?.readyState === WebSocket.OPEN){
                 socketRef.current.onmessage = (event) => {
                     const wsEvent = JSON.parse(event.data);
+                    setIsReceived(true);
 
                     //"qa" event streams chatbot response
                     if(wsEvent.event == "qa"){
@@ -137,6 +142,8 @@ export default function Chatbot({isRefreshed, setIsRefreshed}: IChatBot){
                 scrollChatContentBottom(); 
             }
         }catch(error){
+            setIsCompleted(true);
+            setIsReceived(false);
             socketRef.current?.close();
         }
     }, [chatMessages]);
@@ -157,7 +164,7 @@ export default function Chatbot({isRefreshed, setIsRefreshed}: IChatBot){
                 <div ref={chatContentDivRef}
                     className="flex-grow overflow-y-scroll p-2 mb-24">
                     {chatMessages.map((m, idx) => (
-                        <ChatMessage chatMsg={m} key={idx}/>
+                        <ChatMessage chatMsg={m} key={idx} isReceived={isReceived}/>
                     ))}
                 </div>
 

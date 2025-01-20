@@ -3,10 +3,11 @@ import { CiUser } from "react-icons/ci";
 import ChatMsg from "@/models/chat-message";
 
 interface ChatMessageStruct{
-    chatMsg: ChatMsg
+    chatMsg: ChatMsg;
+    isReceived: boolean;
 }
 
-export default function ChatMessage({chatMsg}: ChatMessageStruct){
+export default function ChatMessage({chatMsg, isReceived}: ChatMessageStruct){
 
     if(chatMsg.humanMessage !== undefined){
         return(
@@ -29,9 +30,18 @@ export default function ChatMessage({chatMsg}: ChatMessageStruct){
                     <GoDependabot className="w-8 h-8 text-lapis-lazuli mb-1"/>
                     <h3 className="text-black ml-2">Friday</h3>
                 </div>
-                <p className="text-white max-w-[70%] h-auto bg-prussian-blue rounded-xl p-3">
-                    {chatMsg.aiMessage?.answer.text}
-                </p>
+                {
+                    chatMsg.aiMessage?.answer.text === "" && !isReceived ?
+                    <div className="flex justify-start items-center space-x-1">
+                        <h3 className="text-prussian-blue">Thinking</h3>
+                        <div className="w-2 h-2 bg-prussian-blue rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-prussian-blue rounded-full animate-bounce [animation-delay:200ms]"></div>
+                        <div className="w-2 h-2 bg-prussian-blue rounded-full animate-bounce [animation-delay:300ms]"></div>
+                    </div> :
+                    <p className="text-white max-w-[70%] h-auto bg-prussian-blue rounded-xl p-3">
+                        {chatMsg.aiMessage?.answer.text}
+                    </p>
+                }
             </div>
         )
     }
