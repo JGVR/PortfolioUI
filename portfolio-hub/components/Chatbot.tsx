@@ -9,7 +9,12 @@ import HumanMessage from "@/models/human-message";
 import AIMessage from "@/models/ai-message";
 import ChatMsg from "@/models/chat-message";
 
-export default function Chatbot(){
+interface IChatBot{
+    isRefreshed: boolean;
+    setIsRefreshed: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function Chatbot({isRefreshed, setIsRefreshed}: IChatBot){
     const [chatMessages, setChatMessages] = useState<ChatMsg[]>([]);
     const [message, setMessage] = useState("");
     const [humanMsg, setHumanMsg] = useState<HumanMessage>();
@@ -29,23 +34,31 @@ export default function Chatbot(){
           // Adjust height to scroll height, up to max height
           textarea.style.height = `${Math.min(textarea.scrollHeight, 100)}px`;
         }
-    }
+    };
 
     //scroll chat message content to the bottom
     const scrollChatContentBottom = () => {
         if(chatContentDivRef.current){
             chatContentDivRef.current.scrollTop = chatContentDivRef.current.scrollHeight;
         }
-    }
+    };
 
     const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         adjustHeight();
         setMessage(e.target.value);
     };
 
-    const onSend = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        if(e.key == "Enter" && !e.shiftKey){
-            e.preventDefault(); //prevents textarea from going to next line
+    const onSend = (e: React.KeyboardEvent<HTMLTextAreaElement> | React.MouseEvent<SVGElement>) => {
+        if("key" in e){
+            if(e.key == "Enter" && !e.shiftKey){
+                e.preventDefault(); //prevents textarea from going to next line
+                const humanMessage = new HumanMessage(new Question(message));
+                const chatMsg = new ChatMsg(humanMessage);
+                setChatMessages((prevMsgs) => [...prevMsgs, chatMsg]);
+                setHumanMsg(humanMessage);
+                setMessage("");
+            }
+        }else{
             const humanMessage = new HumanMessage(new Question(message));
             const chatMsg = new ChatMsg(humanMessage);
             setChatMessages((prevMsgs) => [...prevMsgs, chatMsg]);
@@ -70,7 +83,7 @@ export default function Chatbot(){
         return () => {
             socket.close();
         }
-    }, [])
+    }, []);
 
     //Send "qa" event to WS endpoint when client types a question
     useEffect(() => {
@@ -81,7 +94,7 @@ export default function Chatbot(){
             setIsCompleted(false);
             console.log(JSON.stringify(req));
         }
-    }, [humanMsg])
+    }, [humanMsg]);
 
     //Receive ws message everytime chatMessages is updated
     useEffect(() => {
@@ -126,7 +139,15 @@ export default function Chatbot(){
         }catch(error){
             socketRef.current?.close();
         }
-    }, [chatMessages])
+    }, [chatMessages]);
+
+    //reset chatbot messages
+    useEffect(() => {
+        if(isRefreshed){
+            setChatMessages([]);
+            setIsRefreshed(!isRefreshed);
+        }
+    }, [isRefreshed])
 
 
     return(
@@ -152,7 +173,7 @@ export default function Chatbot(){
                             value={message}
                             disabled={!isCompleted}
                         />
-                        <IoMdSend className="h-8 w-8 text-prussian-blue ml-2 cursor-pointer hover:opacity-40" />
+                        <IoMdSend className="h-8 w-8 text-prussian-blue ml-2 cursor-pointer hover:opacity-40" onClick={onSend}/>
                     </div>
                 </div>
             </div>

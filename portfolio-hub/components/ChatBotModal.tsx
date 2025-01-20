@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { IoIosCloseCircleOutline, IoMdRefresh } from "react-icons/io";
+import Chatbot from "./Chatbot";
 
-interface ModalStruct{
-    children: React.ReactNode
-}
-
-export default function ChatBotModal({children}: ModalStruct){
+export default function ChatBotModal(){
     const [isModalOpen, setModalOpen] = useState(true);
+    const [isRefreshed, setIsRefreshed] = useState(false);
 
     const onClose = () => {
         setModalOpen(!isModalOpen);
+    };
+
+    const onRefresh = () => {
+        setIsRefreshed(true);
     };
 
     if(!isModalOpen){
@@ -23,13 +25,13 @@ export default function ChatBotModal({children}: ModalStruct){
                 {/*Modal Header*/}
                 <div className="flex flex-row items-center border-b border-gray-400 w-full h-[10%] gap-1">
                     <h2 className="text-xl font-bold ml-4 text-black grow">Friday Juan's Assistant</h2>
-                    <IoMdRefresh className="h-10 w-10 text-prussian-blue cursor-pointer hover:opacity-40"/>
+                    <IoMdRefresh className="h-10 w-10 text-prussian-blue cursor-pointer hover:opacity-40" onClick={onRefresh}/>
                     <IoIosCloseCircleOutline className="h-10 w-10 text-prussian-blue mr-2 cursor-pointer hover:opacity-40" onClick={onClose}/>
                 </div>
                 
                 {/*Modal Content*/}
                 <div className="relative w-full h-[80%] border-t border-gray-500 overflow-hidden overflow-y-scroll">
-                    {children}
+                    <Chatbot isRefreshed={isRefreshed} setIsRefreshed={setIsRefreshed}/>
                 </div>
                 {/*Modal Footer*/}
                 <div className="flex flex-row items-center justify-start w-full h-[10%] max-h-[10%] p-4">
