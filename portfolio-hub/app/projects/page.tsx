@@ -1,8 +1,8 @@
 'use client';
-import ChatBotModal from "@/components/ChatBotModal";
+import ProjectGrid from "@/components/ProjectGrid";
 
 export default function Projects(){
     return(
-        <h1>test</h1>
+       <ProjectGrid/>
     )
 }

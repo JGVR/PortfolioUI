@@ -1,5 +1,5 @@
 import Profile from "@/models/profile";
-import Skill from "@/models/skill";
+import Skill from "@/models/Skill";
 
 let profileTestData = new Profile({
     userId:1,

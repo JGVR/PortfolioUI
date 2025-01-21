@@ -14,9 +14,9 @@ export default function RootLayout({ children }: Readonly<{children: React.React
       <head>
         <link href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" rel="stylesheet"/>
       </head>
-      <body className="h-full w-full">
+      <body className="min-h-screen min-w-screen bg-gradient-to-b from-prussian-blue from-40% to-lapis-lazuli">
         <NavBar />
-        <main className="h-full w-full bg-gradient-to-b from-prussian-blue from-40% to-lapis-lazuli">
+        <main className="h-full w-full">
           {children}
           <div className="fixed bottom-14 right-10">
             <TbMessageChatbotFilled className="h-12 w-12 text-amber hover:opacity-80 cursor-pointer" onClick={() => setIsChatModalVisible(true)}/>
