@@ -4,11 +4,12 @@ import { FaGithub } from "react-icons/fa";
 interface IGridProp{
     title: string
     status: string
+    footer: any[]
     showProgressBar: boolean
     progressBarPercentage?: number
 }
 
-export default function Grid({title, status, showProgressBar, progressBarPercentage}: IGridProp){
+export default function Grid({title, status, showProgressBar, progressBarPercentage=0}: IGridProp){
     return(
         <div className="flex flex-row border border-white rounded-xl h-40">
             <div className="flex flex-col w-full h-full p-2">
@@ -22,16 +23,23 @@ export default function Grid({title, status, showProgressBar, progressBarPercent
                 {
                     showProgressBar === true ?
                     <Fragment>
-                        <div className="flex flex-row mt-1 p-2">
-                            <div className="h-3 w-full rounded-xl bg-gradient-to-r from-amber from-80% to-gray-500 to-20%"></div>
+                        <div className="flex flex-row h-3 bg-gray-500 rounded-xl overflow-hidden">
+                            <div className="h-full bg-amber" style={{width: `${progressBarPercentage}%`}}></div>
                         </div>
                         <div className="flex flex-row-reverse">
-                            <h3 className="text-white">80%</h3>
+                            <h3 className="text-white">{progressBarPercentage}%</h3>
                         </div>
                     </Fragment>
                     :
                     null
                 }
+
+                {/*FOOTER*/}
+                <div className="flex flex-row gap-2 h-8 w-8 ml-2">
+                    {/*change to a for loop */}
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" />
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" />
+                </div>
             </div>
         </div>
     );

@@ -26,7 +26,7 @@ export default function ProjectGrid(){
             </div>
 
             {/*Content*/}
-            <Grid title="ProjectName" status="Status" showProgressBar={true} progressBarPercentage={80}/>
+            <Grid title="ProjectName" status="Status" showProgressBar={true} progressBarPercentage={20} footer={[]}/>
             <div className="flex flex-row border border-white rounded-xl">
                 <div></div>
             </div>
