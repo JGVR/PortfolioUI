@@ -1,5 +1,6 @@
-import { FaGithub } from "react-icons/fa";
+import projectTestData from "@/placeholder/projectTestData";
 import Grid from "./Grid";
+import { Fragment } from "react";
 
 export default function ProjectGrid(){
     return(
@@ -21,19 +22,16 @@ export default function ProjectGrid(){
                 </div>
                 <div className="flex flex-col flex-grow min-w-[10%]">
                     <h1 className="text-xl font-bold font-sans">Search</h1>
-                    <input className="p-2 mt-2 text-white w-full rounded-xl" placeholder="search..."/>
+                    <input className="p-2 mt-2 text-prussian-blue w-full rounded-xl" placeholder="search..."/>
                 </div>
             </div>
 
             {/*Content*/}
-            <Grid title="ProjectName" status="Status" showProgressBar={true} progressBarPercentage={20} footer={[]}/>
-            <div className="flex flex-row border border-white rounded-xl">
-                <div></div>
-            </div>
-            <div className="flex flex-row border border-white rounded-xl">
-            </div>
-            <div className="flex flex-row border border-white rounded-xl">
-            </div>
+            {
+                projectTestData.map((project, idx) => ( 
+                    <Grid title={project.name} status="Status" showProgressBar={true} progressBarPercentage={20} footer={project.badges} key={idx}/>
+                ))
+            }
         </div>
     )
 }

@@ -4,15 +4,15 @@ export default class Project{
     userId: number
     name: string
     description: string
-    badge: Badge[]
+    badges: Badge[]
     images: string[]
     url?: string
 
-    constructor(userId: number, name: string, description: string, badge: Badge[], images: string[], url?: string){
+    constructor(userId: number, name: string, description: string, badges: Badge[], images: string[], url?: string){
         this.userId=userId;
         this.name=name;
         this.description=description;
-        this.badge=badge;
+        this.badges=badges;
         this.images=images;
         this.url=url;
     }

@@ -9,9 +9,9 @@ interface IGridProp{
     progressBarPercentage?: number
 }
 
-export default function Grid({title, status, showProgressBar, progressBarPercentage=0}: IGridProp){
+export default function Grid({title, status, showProgressBar, progressBarPercentage=0, footer}: IGridProp){
     return(
-        <div className="flex flex-row border border-white rounded-xl h-40">
+        <div className="flex flex-row border border-white rounded-xl h-48">
             <div className="flex flex-col w-full h-full p-2">
                 <div className="flex flex-row w-full h-[40%]">
                     <h3 className="text-white text-lg flex-1">{title}</h3>
@@ -35,10 +35,11 @@ export default function Grid({title, status, showProgressBar, progressBarPercent
                 }
 
                 {/*FOOTER*/}
-                <div className="flex flex-row gap-2 h-8 w-8 ml-2">
+                <div className="flex flex-row gap-2 h-10 w-10 ml-2">
                     {/*change to a for loop */}
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" />
+                    {footer.map((data, idx) => (
+                        <img src={data.url} key={idx}/>
+                    ))}
                 </div>
             </div>
         </div>
