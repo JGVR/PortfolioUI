@@ -1,5 +1,8 @@
-import { Fragment } from "react";
+import ProjectFetcher from "@/services/project-fetcher";
+import { Fragment, useEffect } from "react";
 import { FaGithub } from "react-icons/fa";
+import config from "@/config";
+import Project from "@/models/project";
 
 interface IGridProp{
     title: string
@@ -10,6 +13,19 @@ interface IGridProp{
 }
 
 export default function Grid({title, status, showProgressBar, progressBarPercentage=0, footer}: IGridProp){
+    const projects = new ProjectFetcher();
+    let data: Array<Project>;
+    
+
+    useEffect(() => {
+        const loadProjectData = async () => {
+            data = await projects.call(config.apiUrl ?? "", 10, 0);
+        } 
+
+        loadProjectData();
+        console.log(data);
+    }, [])
+
     return(
         <div className="flex flex-row border border-white rounded-xl h-48">
             <div className="flex flex-col w-full h-full p-2">

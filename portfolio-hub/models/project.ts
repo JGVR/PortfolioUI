@@ -1,6 +1,7 @@
+import IEntity from "@/contracts/domain.interface"
 import Badge from "./badge"
 
-export default class Project{
+export default class Project implements IEntity{
     userId: number
     name: string
     description: string
