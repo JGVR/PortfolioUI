@@ -6,7 +6,7 @@ export default class ProjectFetcher implements IFetcher<Project>{
     async call(source: string, max: number, skip: number): Promise<Array<Project>>{
         try{
             console.log(`API URL: ${source}`);
-            const fullUrl = `${source}find?type=project&userId=1`;
+            const fullUrl = `${source}find/?type=project&userId=1`;
             const resp = await fetch(fullUrl);
 
             if(!resp.ok){

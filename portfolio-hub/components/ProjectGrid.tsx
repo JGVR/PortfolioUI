@@ -1,8 +1,23 @@
 import projectTestData from "@/placeholder/projectTestData";
 import Grid from "./Grid";
-import { Fragment } from "react";
+import config from "@/config";
+import Project from "@/models/project";
+import ProjectFetcher from "@/services/project-fetcher";
+import { useEffect, useState } from "react";
 
 export default function ProjectGrid(){
+    const fetcher = new ProjectFetcher();
+    const [projects, setProjects] = useState<Array<Project>>([]);
+
+    useEffect(() => {
+        const loadProjectData = async () => {
+            const data = await fetcher.call(config.apiUrl ?? "", 10, 0);
+            setProjects(data);
+        } 
+
+        loadProjectData();
+    }, [])
+
     return(
         <div className="grid grid-cols-4 w-full h-full p-4 gap-x-3 gap-y-4 min-h-52 max-h-52">
 
@@ -28,7 +43,7 @@ export default function ProjectGrid(){
 
             {/*Content*/}
             {
-                projectTestData.map((project, idx) => ( 
+                projects.map((project, idx) => (
                     <Grid title={project.name} status="Status" showProgressBar={true} progressBarPercentage={20} footer={project.badges} key={idx}/>
                 ))
             }

@@ -1,36 +1,17 @@
-import ProjectFetcher from "@/services/project-fetcher";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import { FaGithub } from "react-icons/fa";
-import config from "@/config";
-import Project from "@/models/project";
-
-interface IGridProp{
-    title: string
-    status: string
-    footer: any[]
-    showProgressBar: boolean
-    progressBarPercentage?: number
-}
+import IGridProp from "@/contracts/grid.interface";
 
 export default function Grid({title, status, showProgressBar, progressBarPercentage=0, footer}: IGridProp){
-    const projects = new ProjectFetcher();
-    let data: Array<Project>;
-    
-
-    useEffect(() => {
-        const loadProjectData = async () => {
-            data = await projects.call(config.apiUrl ?? "", 10, 0);
-        } 
-
-        loadProjectData();
-        console.log(data);
-    }, [])
+    const wellFormedTitle = title.split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 
     return(
         <div className="flex flex-row border border-white rounded-xl h-48">
             <div className="flex flex-col w-full h-full p-2">
                 <div className="flex flex-row w-full h-[40%]">
-                    <h3 className="text-white text-lg flex-1">{title}</h3>
+                    <h3 className="text-white font-sans font-bold text-lg flex-1">{wellFormedTitle}</h3>
                     <FaGithub className="h-8 w-8 text-white"/>
                 </div>
                 <div className="flex flex-row-reverse">
