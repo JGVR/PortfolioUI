@@ -1,9 +1,9 @@
-import projectTestData from "@/placeholder/projectTestData";
 import Grid from "./Grid";
 import config from "@/config";
 import Project from "@/models/project";
 import ProjectFetcher from "@/services/project-fetcher";
 import { useEffect, useState } from "react";
+import SearchBar from "./SearchBar";
 
 export default function ProjectGrid(){
     const fetcher = new ProjectFetcher();
@@ -11,6 +11,7 @@ export default function ProjectGrid(){
 
     useEffect(() => {
         const loadProjectData = async () => {
+            console.log(`API URL: ${config.apiUrl}`);
             const data = await fetcher.call(config.apiUrl ?? "", 10, 0);
             setProjects(data);
         } 
@@ -36,8 +37,8 @@ export default function ProjectGrid(){
                     <h2 className="mt-2 text-lg">12</h2>
                 </div>
                 <div className="flex flex-col flex-grow min-w-[10%]">
-                    <h1 className="text-xl font-bold font-sans">Search</h1>
-                    <input className="p-2 mt-2 text-prussian-blue w-full rounded-xl" placeholder="search..."/>
+                    <h1 className="text-xl font-bold font-sans mb-2">Search</h1>
+                    <SearchBar filters={[]} text=""/>
                 </div>
             </div>
 

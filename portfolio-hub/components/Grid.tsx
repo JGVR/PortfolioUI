@@ -33,7 +33,6 @@ export default function Grid({title, status, showProgressBar, progressBarPercent
 
                 {/*FOOTER*/}
                 <div className="flex flex-row gap-2 h-10 w-10 ml-2">
-                    {/*change to a for loop */}
                     {footer.map((data, idx) => (
                         <img src={data.url} key={idx}/>
                     ))}
