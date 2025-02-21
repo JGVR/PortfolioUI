@@ -1,4 +1,6 @@
+import CategoryFilters from "@/models/category-filters";
+
 export default interface ISearch{
-    filters: Array<string>;
+    filters: Array<CategoryFilters>;
     text: string;
 }

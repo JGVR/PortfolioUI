@@ -4,10 +4,13 @@ import Project from "@/models/project";
 import ProjectFetcher from "@/services/project-fetcher";
 import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
+import CategoryFilters from "@/models/category-filters";
+import CategoryFilterBuilder from "@/services/category-filter-builder";
 
 export default function ProjectGrid(){
     const fetcher = new ProjectFetcher();
     const [projects, setProjects] = useState<Array<Project>>([]);
+    const [categoryFilters, setCategoryFilters] = useState<Array<CategoryFilters>>([]);
 
     useEffect(() => {
         const loadProjectData = async () => {
@@ -18,6 +21,16 @@ export default function ProjectGrid(){
 
         loadProjectData();
     }, [])
+
+    //Build the Category filters for the search bar
+    useEffect(() => {
+        if(projects.length > 0){
+            const badgeNames: Set<string> = new Set(
+                projects.flatMap((project) => project.badges.map((badge) => badge.name))
+            );
+            setCategoryFilters((prevMsgs) => [...prevMsgs, CategoryFilterBuilder.build("Skills", badgeNames)]);
+        }
+    }, [projects])
 
     return(
         <div className="grid grid-cols-4 w-full h-full p-4 gap-x-3 gap-y-4 min-h-52 max-h-52">
