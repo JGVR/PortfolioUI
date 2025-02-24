@@ -28,7 +28,9 @@ export default function ProjectGrid(){
             const badgeNames: Set<string> = new Set(
                 projects.flatMap((project) => project.badges.map((badge) => badge.name))
             );
-            setCategoryFilters((prevMsgs) => [...prevMsgs, CategoryFilterBuilder.build("Skills", badgeNames)]);
+
+            const skills = CategoryFilterBuilder.build("Skills", badgeNames);
+            setCategoryFilters((prevMsgs) => [...prevMsgs, skills]);
         }
     }, [projects])
 
