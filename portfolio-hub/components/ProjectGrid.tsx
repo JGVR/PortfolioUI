@@ -51,7 +51,7 @@ export default function ProjectGrid(){
                 </div>
                 <div className="flex flex-col flex-grow min-w-[10%]">
                     <h1 className="text-xl font-bold font-sans mb-2">Search</h1>
-                    <SearchBar filters={[]} text=""/>
+                    <SearchBar filters={categoryFilters} text=""/>
                 </div>
             </div>
 
