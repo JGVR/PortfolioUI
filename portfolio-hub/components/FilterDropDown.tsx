@@ -1,9 +1,8 @@
 import IFilterDropdown from "@/contracts/dropdown-interface";
 import { useState, useEffect, useRef } from "react";
 
-export default function FilterDropDown({isOpen, setIsOpen, categoryFilters }: IFilterDropdown) {
+export default function FilterDropDown({isOpen, setIsOpen, categoryFilters, selectedFilters, setSelectedFilters }: IFilterDropdown) {
     const dropdownRef = useRef<HTMLDivElement>(null);
-    const [selectedFilters, setSelectedFilters] = useState<Array<string>>([]);
 
     //close the dropdown when clicking outside of it
     const handleClickOutside = (event: MouseEvent) => {
@@ -14,8 +13,6 @@ export default function FilterDropDown({isOpen, setIsOpen, categoryFilters }: IF
 
     //handle checkbox change
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.value);
-
         //add or remove the filter from the selected filters
         if(event.target.checked){
             setSelectedFilters([...selectedFilters, event.target.value]);
@@ -23,7 +20,6 @@ export default function FilterDropDown({isOpen, setIsOpen, categoryFilters }: IF
             setSelectedFilters(selectedFilters.filter((filter) => filter !== event.target.value));
         }
     };
-
 
     //create an event listener to close the dropdown when clicking outside of it
     useEffect(() => {

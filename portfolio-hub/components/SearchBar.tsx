@@ -6,6 +6,7 @@ import { useState } from "react";
 
 export default function SearchBar({filters, text}: ISearch){
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [selectedFilters, setSelectedFilters] = useState<Array<string>>([]);
 
     return(
         <div>
@@ -18,7 +19,7 @@ export default function SearchBar({filters, text}: ISearch){
                 </div>
 
                 {/*Filter Dropdown*/}
-                {isOpen ? <FilterDropDown isOpen={isOpen} setIsOpen={setIsOpen} categoryFilters={filters}/> : null}
+                {isOpen ? <FilterDropDown isOpen={isOpen} setIsOpen={setIsOpen} categoryFilters={filters} selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters}/> : null}
 
                 {/*Search Bar*/}
                 <input className="h-10 w-96 p-2 text-prussian-blue" type="text" placeholder="Search..." value={text}/>
